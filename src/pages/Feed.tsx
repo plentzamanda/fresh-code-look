@@ -1,5 +1,7 @@
 import { Heart, MessageCircle, Share2, Plus } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
+import ceramicPot from "@/assets/ceramic-pot-1.jpg";
+import ceramicVase from "@/assets/ceramic-vase-1.jpg";
 
 const Feed = () => {
   const posts = [
@@ -7,7 +9,7 @@ const Feed = () => {
       id: 1,
       author: "Joana Silva",
       location: "São Paulo, Brasil",
-      image: "ceramic-pot",
+      image: ceramicPot,
       likes: "1.2k",
       comments: 83,
       caption: "Finalizando mais uma encomenda especial ✨ Cada detalhe feito com muito amor.",
@@ -16,7 +18,7 @@ const Feed = () => {
       id: 2,
       author: "Carlos Pereira",
       location: "Oficina de Macramê",
-      image: "ceramic-vase",
+      image: ceramicVase,
       likes: 847,
       comments: 56,
       caption: "Nova coleção de vasos minimalistas! O que acharam? 🏺",
@@ -57,7 +59,7 @@ const Feed = () => {
               </div>
             </div>
 
-            <div className="aspect-square bg-accent"></div>
+            <img src={post.image} alt={post.caption} className="aspect-square w-full object-cover" />
 
             <div className="p-4">
               <div className="flex items-center gap-4 mb-3">

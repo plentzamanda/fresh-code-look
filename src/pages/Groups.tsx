@@ -1,6 +1,10 @@
 import { Search, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BottomNav from "@/components/BottomNav";
+import groupPottery from "@/assets/group-pottery.jpg";
+import groupWeaving from "@/assets/group-weaving.jpg";
+import macrameArt from "@/assets/macrame-art.jpg";
+import ceramicBowl from "@/assets/ceramic-bowl-1.jpg";
 
 const Groups = () => {
   const featuredGroups = [
@@ -9,12 +13,14 @@ const Groups = () => {
       name: "Artesanato em Cerâmica",
       members: "12.3k membros",
       description: "Um espaço para compartilhar criações, técnicas e inspirações de cerâmica.",
+      image: groupPottery,
     },
     {
       id: 2,
       name: "Pintura em Tela",
       members: "8.7k membros",
       description: "Comunidade para artistas que amam pintar. Dicas, tutoriais e exposições.",
+      image: groupWeaving,
     },
   ];
 
@@ -23,13 +29,13 @@ const Groups = () => {
       id: 1,
       name: "Amantes de Crochê",
       lastActivity: "Última atividade há 2 horas",
-      image: "crochet",
+      image: ceramicBowl,
     },
     {
       id: 2,
       name: "Macramê Moderno",
       lastActivity: "Última atividade há 4 horas",
-      image: "macrame",
+      image: macrameArt,
     },
   ];
 
@@ -63,7 +69,7 @@ const Groups = () => {
             {featuredGroups.map((group) => (
               <div key={group.id} className="bg-card rounded-2xl p-4 border border-border">
                 <div className="flex gap-4 mb-3">
-                  <div className="w-20 h-20 rounded-xl bg-accent flex-shrink-0"></div>
+                  <img src={group.image} alt={group.name} className="w-20 h-20 rounded-xl object-cover flex-shrink-0" />
                   <div className="flex-1">
                     <h3 className="font-semibold mb-1">{group.name}</h3>
                     <p className="text-xs text-muted-foreground">{group.members}</p>
@@ -86,7 +92,7 @@ const Groups = () => {
                 key={group.id}
                 className="bg-card rounded-2xl p-4 border border-border flex items-center gap-4"
               >
-                <div className="w-16 h-16 rounded-xl bg-accent flex-shrink-0"></div>
+                <img src={group.image} alt={group.name} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
                 <div className="flex-1">
                   <h3 className="font-semibold mb-1">{group.name}</h3>
                   <p className="text-xs text-muted-foreground">{group.lastActivity}</p>

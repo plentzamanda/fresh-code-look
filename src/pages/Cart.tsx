@@ -2,6 +2,9 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import BottomNav from "@/components/BottomNav";
+import ceramicVase from "@/assets/ceramic-vase-1.jpg";
+import wickerBasket from "@/assets/wicker-basket.jpg";
+import beadedNecklace from "@/assets/beaded-necklace.jpg";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -12,18 +15,21 @@ const Cart = () => {
       name: "Vaso de cerâmica...",
       quantity: 1,
       price: 45.0,
+      image: ceramicVase,
     },
     {
       id: 2,
       name: "Cesta de vime tecida à...",
       quantity: 2,
       price: 60.0,
+      image: wickerBasket,
     },
     {
       id: 3,
       name: "Colar de miçangas...",
       quantity: 1,
       price: 25.0,
+      image: beadedNecklace,
     },
   ];
 
@@ -46,7 +52,7 @@ const Cart = () => {
         <div className="space-y-4 mb-6">
           {cartItems.map((item) => (
             <div key={item.id} className="flex gap-4 bg-card rounded-2xl p-4 border border-border">
-              <div className="w-20 h-20 rounded-xl bg-accent flex-shrink-0"></div>
+              <img src={item.image} alt={item.name} className="w-20 h-20 rounded-xl object-cover flex-shrink-0" />
               <div className="flex-1">
                 <h3 className="font-semibold mb-1">{item.name}</h3>
                 <p className="text-sm text-muted-foreground mb-2">

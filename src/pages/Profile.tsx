@@ -2,13 +2,24 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import BottomNav from "@/components/BottomNav";
+import profilePhoto from "@/assets/profile-photo.jpg";
+import ceramicBowl from "@/assets/ceramic-bowl-1.jpg";
+import ceramicPlates from "@/assets/ceramic-plates.jpg";
+import ceramicVase from "@/assets/ceramic-vase-1.jpg";
+import ceramicPot from "@/assets/ceramic-pot-1.jpg";
+import macrameArt from "@/assets/macrame-art.jpg";
+import wickerBasket from "@/assets/wicker-basket.jpg";
 
 const Profile = () => {
   const navigate = useNavigate();
 
   const portfolio = [
-    { id: 1 }, { id: 2 }, { id: 3 },
-    { id: 4 }, { id: 5 }, { id: 6 },
+    { id: 1, image: ceramicBowl },
+    { id: 2, image: ceramicPlates },
+    { id: 3, image: ceramicVase },
+    { id: 4, image: ceramicPot },
+    { id: 5, image: macrameArt },
+    { id: 6, image: wickerBasket },
   ];
 
   return (
@@ -25,7 +36,7 @@ const Profile = () => {
         <div className="relative h-48 bg-accent">
           <div className="absolute -bottom-16 left-1/2 -translate-x-1/2">
             <div className="w-32 h-32 rounded-full bg-card border-4 border-card overflow-hidden">
-              <div className="w-full h-full bg-accent"></div>
+              <img src={profilePhoto} alt="Elara Vasconcelos" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -77,7 +88,12 @@ const Profile = () => {
 
           <div className="grid grid-cols-3 gap-1 p-1">
             {portfolio.map((item) => (
-              <div key={item.id} className="aspect-square bg-accent rounded-lg"></div>
+              <img 
+                key={item.id} 
+                src={item.image} 
+                alt={`Portfolio item ${item.id}`}
+                className="aspect-square rounded-lg object-cover"
+              />
             ))}
           </div>
         </div>
