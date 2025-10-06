@@ -1,29 +1,20 @@
 import { Heart, MessageCircle, Share2, Plus } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
-import ceramicPot from "@/assets/ceramic-pot-1.jpg";
-import ceramicVase from "@/assets/ceramic-vase-1.jpg";
+import { usePosts } from "@/hooks/usePosts";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Feed = () => {
-  const posts = [
-    {
-      id: 1,
-      author: "Joana Silva",
-      location: "São Paulo, Brasil",
-      image: ceramicPot,
-      likes: "1.2k",
-      comments: 83,
-      caption: "Finalizando mais uma encomenda especial ✨ Cada detalhe feito com muito amor.",
-    },
-    {
-      id: 2,
-      author: "Carlos Pereira",
-      location: "Oficina de Macramê",
-      image: ceramicVase,
-      likes: 847,
-      comments: 56,
-      caption: "Nova coleção de vasos minimalistas! O que acharam? 🏺",
-    },
-  ];
+  const { posts, isLoading } = usePosts();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -47,43 +38,54 @@ const Feed = () => {
       </header>
 
       <main className="max-w-lg mx-auto">
-        {posts.map((post) => (
-          <article key={post.id} className="bg-card border-b border-border">
-            <div className="p-4 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                <User className="w-6 h-6 text-accent-foreground" />
+        {isLoading ? (
+          <div className="p-4 text-center">Carregando...</div>
+        ) : posts && posts.length > 0 ? (
+          posts.map((post) => (
+            <article key={post.id} className="bg-card border-b border-border">
+              <div className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                  {post.profiles?.avatar_url ? (
+                    <img src={post.profiles.avatar_url} alt={post.profiles.full_name} className="w-full h-full rounded-full object-cover" />
+                  ) : (
+                    <User className="w-6 h-6 text-accent-foreground" />
+                  )}
+                </div>
+                <div>
+                  <p className="font-semibold">{post.profiles?.full_name || 'Usuário'}</p>
+                  <p className="text-xs text-muted-foreground">@{post.profiles?.username || 'user'}</p>
+                </div>
               </div>
-              <div>
-                <p className="font-semibold">{post.author}</p>
-                <p className="text-xs text-muted-foreground">{post.location}</p>
-              </div>
-            </div>
 
-            <img src={post.image} alt={post.caption} className="aspect-square w-full object-cover" />
+              <img src={post.image_url} alt={post.caption || ''} className="aspect-square w-full object-cover" />
 
-            <div className="p-4">
-              <div className="flex items-center gap-4 mb-3">
-                <button className="flex items-center gap-1">
-                  <Heart className="w-6 h-6" />
-                  <span className="text-sm">{post.likes}</span>
-                </button>
-                <button className="flex items-center gap-1">
-                  <MessageCircle className="w-6 h-6" />
-                  <span className="text-sm">{post.comments}</span>
-                </button>
-                <button>
-                  <Share2 className="w-6 h-6" />
-                </button>
+              <div className="p-4">
+                <div className="flex items-center gap-4 mb-3">
+                  <button className="flex items-center gap-1">
+                    <Heart className="w-6 h-6" />
+                    <span className="text-sm">{post.likes_count || 0}</span>
+                  </button>
+                  <button className="flex items-center gap-1">
+                    <MessageCircle className="w-6 h-6" />
+                    <span className="text-sm">{post.comments_count || 0}</span>
+                  </button>
+                  <button>
+                    <Share2 className="w-6 h-6" />
+                  </button>
+                </div>
+                {post.caption && (
+                  <p className="text-sm">
+                    <span className="font-semibold">{post.profiles?.full_name}</span> {post.caption}
+                  </p>
+                )}
               </div>
-              <p className="text-sm">
-                <span className="font-semibold">{post.author}</span> {post.caption}
-              </p>
-              <button className="text-sm text-muted-foreground mt-2">
-                Ver todos os {post.comments} comentários
-              </button>
-            </div>
-          </article>
-        ))}
+            </article>
+          ))
+        ) : (
+          <div className="p-8 text-center text-muted-foreground">
+            Nenhuma publicação ainda
+          </div>
+        )}
       </main>
 
       <BottomNav />

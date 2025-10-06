@@ -1,8 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { signUp } = useAuth();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (formData.password !== formData.confirmPassword) {
+      return alert("As senhas não coincidem");
+    }
+
+    const username = formData.email.split("@")[0];
+    await signUp(formData.email, formData.password, formData.fullName, username);
+  };
 
   return (
     <div className="min-h-screen bg-primary flex items-center justify-center p-6">
@@ -17,12 +37,15 @@ const Signup = () => {
 
           <h2 className="text-2xl font-bold mb-6">Cadastre-se</h2>
 
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Nome Completo</label>
               <input
                 type="text"
                 placeholder="Seu nome completo"
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                required
                 className="w-full px-4 py-3 rounded-lg bg-input border-0 focus:ring-2 focus:ring-primary outline-none"
               />
             </div>
@@ -32,6 +55,9 @@ const Signup = () => {
               <input
                 type="email"
                 placeholder="seuemail@exemplo.com"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
                 className="w-full px-4 py-3 rounded-lg bg-input border-0 focus:ring-2 focus:ring-primary outline-none"
               />
             </div>
@@ -41,6 +67,10 @@ const Signup = () => {
               <input
                 type="password"
                 placeholder="••••••••"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+                minLength={6}
                 className="w-full px-4 py-3 rounded-lg bg-input border-0 focus:ring-2 focus:ring-primary outline-none"
               />
             </div>
@@ -50,18 +80,22 @@ const Signup = () => {
               <input
                 type="password"
                 placeholder="••••••••"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                required
+                minLength={6}
                 className="w-full px-4 py-3 rounded-lg bg-input border-0 focus:ring-2 focus:ring-primary outline-none"
               />
             </div>
 
             <Button 
-              onClick={() => navigate('/feed')}
+              type="submit"
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 rounded-xl text-base font-semibold mt-6"
             >
               Criar Conta
             </Button>
 
-            <p className="text-sm text-muted-foreground text-center">
+            <p className="text-sm text-muted-foreground text-center mt-4">
               Já tem uma conta?{" "}
               <button 
                 onClick={() => navigate('/')}
@@ -70,7 +104,7 @@ const Signup = () => {
                 Entrar
               </button>
             </p>
-          </div>
+          </form>
         </div>
       </div>
     </div>
